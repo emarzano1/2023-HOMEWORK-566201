@@ -5,6 +5,8 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 public class ComandoVai implements Comando {
+	public static final String OUTPUT_DIREZIONE_INESISTENTE = "Direzione inesistente";
+	public static final String OUTPUT_VAI_SENZA_DIREZIONE = "Dove Vuoi andare?\nDevi specificare una direzione";
 	private String direzione;
 	private IO io;
 
@@ -18,13 +20,13 @@ public class ComandoVai implements Comando {
 
 		Stanza prossimaStanza= null;
 		if(direzione==null) {
-			if(io!=null)io.mostraMessaggio("Dove Vuoi andare?\nDevi specificare una direzione");
+			if(io!=null)io.mostraMessaggio(OUTPUT_VAI_SENZA_DIREZIONE);
 			return;
 		}
 		prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);
 
 		if(prossimaStanza==null) {
-			if(io!=null)io.mostraMessaggio("Direzione inesistente");
+			if(io!=null)io.mostraMessaggio(OUTPUT_DIREZIONE_INESISTENTE);
 			return;
 		}
 		partita.setStanzaCorrente(prossimaStanza);
@@ -59,4 +61,5 @@ public class ComandoVai implements Comando {
 		
 	}
 
+	
 }

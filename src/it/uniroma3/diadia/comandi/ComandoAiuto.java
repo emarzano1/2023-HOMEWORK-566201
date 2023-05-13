@@ -4,7 +4,8 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 public class ComandoAiuto implements Comando {
-	static final private String[] elencoComandi = {"vai + <direzione>", "aiuto", "fine", "prendi + <nomeAttrezzo>", "posa + <nomeAttrezzo>", "guarda"};
+	
+	static final String  MESSAGGIO_AIUTO ="vai + <direzione>    aiuto    fine    prendi + <nomeAttrezzo>    posa + <nomeAttrezzo>    guarda";
 	
 	private IO io;
 
@@ -12,9 +13,8 @@ public class ComandoAiuto implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-		for(int i=0; i< elencoComandi.length; i++) 
-			if(io!=null)io.mostraMessaggio(elencoComandi[i]+" ");
-		if(io!=null)io.mostraMessaggio(" ");
+
+	io.mostraMessaggio(MESSAGGIO_AIUTO);
 	}
 	
 

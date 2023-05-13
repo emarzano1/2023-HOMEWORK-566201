@@ -6,6 +6,9 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class ComandoPosa implements Comando {
 	
+	public static final String OUTPUT_POSA_SENZA_SUCCESSO = "Oggetto non presente";
+	public static final String OUTPUT_STANZA_PIENA = "Spiacente stanza piena";
+	public static final String OUTPUT_POSA_CON_ATTREZZO_IN_BORSA = "è stato posato nella stanza";
 	private String attrezzo;
 	private IO io;
 
@@ -15,12 +18,12 @@ public class ComandoPosa implements Comando {
 			Attrezzo attrezzoPosato=partita.getGiocatore().getBorsa().getAttrezzo(attrezzo);
 			if(partita.getStanzaCorrente().addAttrezzo(attrezzoPosato)){
 				if(partita.getGiocatore().getBorsa().removeAttrezzo(attrezzo)) 
-					if(io!=null)io.mostraMessaggio("è stato posato nella stanza");
+					if(io!=null)io.mostraMessaggio(OUTPUT_POSA_CON_ATTREZZO_IN_BORSA);
 			}
 			else
-				if(io!=null)io.mostraMessaggio("Spiacente stanza piena");}
+				if(io!=null)io.mostraMessaggio(OUTPUT_STANZA_PIENA);}
 		else
-			if(io!=null)io.mostraMessaggio("Oggetto non presente");
+			if(io!=null)io.mostraMessaggio(OUTPUT_POSA_SENZA_SUCCESSO);
 
 	}
 

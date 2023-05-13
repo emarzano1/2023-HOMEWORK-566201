@@ -4,6 +4,8 @@ public class IOSimulator implements IO {
 	
 	private static final int NUMERO_MASSIMO_OUTPUT = 150;
 
+
+
 	private String[] outPut;
 	private String[] inPut;
 	private int numeroOutPut;
@@ -32,9 +34,7 @@ public class IOSimulator implements IO {
 	 * Restituisce tutto l'output del codice in un un'unica stringa
 	 * @return String
 	 */
-	public String getOutput() {
-		return this.toString();
-	}
+	
 	/**
 	 * Prende come parametro un array di Comandi sequenziali
 	 * che verranno inseriti nel codice dal simulatore
@@ -45,7 +45,6 @@ public class IOSimulator implements IO {
 	}
 	/**
 	 * Verifica se una determinata stringa è contenuta nell'output
-	 * FINORA NON UTILIZZATA
 	 * @param parolaDaCercare
 	 * @return
 	 */
@@ -59,7 +58,7 @@ public class IOSimulator implements IO {
 		}
 		return trovata;
 	}
-	public String toString() {
+	public String getOutput() {
 		StringBuilder risultato = new StringBuilder();
 		for(int i=0;i<this.outPut.length;i++)
 			if(this.outPut[i]!=null)

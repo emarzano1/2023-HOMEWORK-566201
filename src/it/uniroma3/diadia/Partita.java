@@ -1,6 +1,10 @@
 package it.uniroma3.diadia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoPredefinito;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
@@ -19,17 +23,21 @@ public class Partita {
 	private boolean finita;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
-	private String[] percorso;
-	private int numStanzeVisitate;
+	private List<String> percorso;
+
 	
-	public Partita(){
-		labirinto= new Labirinto();
+	public Partita() {
+		this(new LabirintoPredefinito());
+	}
+	public Partita(Labirinto labirinto){
+
+		this.labirinto=labirinto;
 		this.finita = false;
-		stanzaCorrente= labirinto.getStanzaCorrente();
-		stanzaVincente= labirinto.getStanzaVincente();
+		stanzaCorrente= this.labirinto.getStanzaIniziale();
+		stanzaVincente= this.labirinto.getStanzaVincente();
 		giocatore= new Giocatore();
-		percorso= new String[20];						//tiene i nomi delle stanze attraversate.
-		numStanzeVisitate=0;
+		percorso= new ArrayList<String>();						//tiene i nomi delle stanze attraversate.
+
 	}
 
     
@@ -58,6 +66,9 @@ public class Partita {
 	public boolean isFinita() {
 		return finita || vinta() || (this.giocatore.getCfu() == 0);
 	}
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto=labirinto;
+	}
 
 	/**
 	 * Imposta la partita come finita
@@ -85,7 +96,7 @@ public class Partita {
 	 * @param prossimaStanza
 	 */
 	public void setStanzaCorrente(Stanza prossimaStanza) {
-		this.percorso[numStanzeVisitate++]=prossimaStanza.getNome();
+		this.percorso.add(prossimaStanza.getNome());
 		this.stanzaCorrente=prossimaStanza;
 		
 	}
@@ -102,6 +113,6 @@ public class Partita {
 	 * @return	percorso String[]
 	 */
 	public String getPercorso(int tappe) {
-		return this.percorso[tappe];
+		return this.percorso.get(tappe);
 	}
 }

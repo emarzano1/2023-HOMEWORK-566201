@@ -6,6 +6,10 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class ComandoPrendi implements Comando {
 
+	public static final String OUTPUT_PRENDI_SENZA_SUCCESSO = "Oggetto non presente";
+	public static final String OUTPUT_LIMITE_BORSA = "La borsa cosi non regge, vai oltre il limite di peso";
+	public static final String OUTPUT_PRESA_FALLITA = "Ops, non sei riuscito a prenderlo dalla stanza";
+	public static final String OUTPUT_PRENDI_CON_ATTREZZO_IN_STANZA = "L'attrezzo è stato preso e messo nello zaino";
 	private String attrezzo;
 	private IO io;
 	
@@ -16,17 +20,17 @@ public class ComandoPrendi implements Comando {
 			Attrezzo attrezzoPreso=partita.getStanzaCorrente().getAttrezzo(attrezzo);
 			if(partita.getGiocatore().getBorsa().addAttrezzo(attrezzoPreso)) {
 				if(partita.getStanzaCorrente().removeAttrezzo(attrezzo)) {
-					if(io!=null)io.mostraMessaggio("L'attrezzo è stato preso e messo nello zaino");
+					if(io!=null)io.mostraMessaggio(OUTPUT_PRENDI_CON_ATTREZZO_IN_STANZA);
 
 				}
 				else
-					if(io!=null)io.mostraMessaggio("Ops, non sei riuscito a prenderlo dalla stanza");
+					if(io!=null)io.mostraMessaggio(OUTPUT_PRESA_FALLITA);
 			}
 			else 
-				if(io!=null)io.mostraMessaggio("La borsa cosi non regge, vai oltre il limite di peso");
+				if(io!=null)io.mostraMessaggio(OUTPUT_LIMITE_BORSA);
 
 		}else
-			if(io!=null)io.mostraMessaggio("Oggetto non presente");
+			if(io!=null)io.mostraMessaggio(OUTPUT_PRENDI_SENZA_SUCCESSO);
 	}
 
 	@Override

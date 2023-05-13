@@ -4,12 +4,13 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 public class ComandoFine implements Comando {
+	public static final String OUTPUT_FINALE = "Grazie di aver giocato!";
 	private IO io;
 
 
 	@Override
 	public void esegui(Partita partita) {
-		if(io!=null)io.mostraMessaggio("Grazie di aver giocato!");
+		if(io!=null)io.mostraMessaggio(OUTPUT_FINALE);
 		partita.setFinita();
 	}
 

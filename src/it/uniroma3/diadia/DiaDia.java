@@ -1,5 +1,7 @@
 package it.uniroma3.diadia;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
@@ -19,7 +21,13 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
 
 public class DiaDia{
 
-	static final private String MESSAGGIO_BENVENUTO = ""+
+	public static final String OUTPUT_VITTORIA = "Hai vinto!";
+
+
+	public static final String OUTPUT_ESAURIMENTO_CFU = "Hai esaurito i CFU...";
+
+
+	static final public String MESSAGGIO_BENVENUTO = ""+
 			"Ti trovi nell'Universita', ma oggi e' diversa dal solito...\n" +
 			"Meglio andare al piu' presto in biblioteca a studiare. Ma dov'e'?\n"+
 			"I locali sono popolati da strani personaggi, " +
@@ -32,14 +40,14 @@ public class DiaDia{
 
 	private Partita partita;
 	private IO io;
+	private FabbricaDiComandi factory;
 
 
-
-	
-
-	public DiaDia(IO io2) {
-		this.partita= new Partita();
-		this.io=io2;
+	public DiaDia(Labirinto labirinto, IO io) {
+		this.partita= new Partita(labirinto);
+		this.io=io;
+		this.factory= new FabbricaDiComandiFisarmonica(io);
+		
 	}
 
 
@@ -59,14 +67,12 @@ public class DiaDia{
 	 */
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
 		comandoDaEseguire= factory.costruisciComando(istruzione);
-		comandoDaEseguire.setIo(this.io);
 		comandoDaEseguire.esegui(this.partita);
 		if(this.partita.vinta())
-			io.mostraMessaggio("Hai vinto!");
+			io.mostraMessaggio(OUTPUT_VITTORIA);
 		if(!this.partita.giocatoreIsVivo())
-			io.mostraMessaggio("Hai esaurito i CFU...");
+			io.mostraMessaggio(OUTPUT_ESAURIMENTO_CFU);
 		return this.partita.isFinita();
 		
 
@@ -79,7 +85,28 @@ public class DiaDia{
 
 	public static void main(String[] argc) {
 		IO io= new IOConsole();
-		DiaDia gioco = new DiaDia(io);
+		Labirinto labirinto = new LabirintoBuilder()
+				.addStanzaIniziale("LabCampusOne")
+				.addAttrezzo("pc", 2)
+				.addStanza("bagno")
+				.addAttrezzo("lanterna", 1)
+				.addAdiacenza("LabCampusOne", "bagno", "est")
+				.addStanza("cucina")
+				.addAttrezzo("cucchiaio", 2)
+				.addAdiacenza("LabCampusOne", "cucina", "nord")
+				.addStanzaBuia("sgabuzzino", "lanterna")
+				.addAttrezzo("spadino", 1)
+				.addAdiacenza("LabCampusOne", "sgabuzzino", "sud")
+				.addStanzaBloccata("tunnel", "spadino", "nord")
+				.addAttrezzo("sasso", 2)
+				.addAdiacenza("sgabuzzino", "tunnel", "est")
+				.addStanzaMagica("narnia", 2)
+				.addAdiacenza("tunnel", "narnia", "nord")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("Biblioteca", "narnia", "est")
+				.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+				.getLabirinto();
+		DiaDia gioco = new DiaDia(labirinto,io);
 		gioco.gioca();
 	}
 }

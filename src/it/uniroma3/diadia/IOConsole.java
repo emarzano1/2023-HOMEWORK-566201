@@ -6,6 +6,7 @@ public class IOConsole implements IO{
 	
 	/**
 	 * Stampa il messaggio su schermo per l'utente.
+	 * @param msg
 	 */
 	public void mostraMessaggio(String msg) {
 		
@@ -16,6 +17,7 @@ public class IOConsole implements IO{
 	 * Legge un'intera riga inserita come input da tastiera.
 	 * @return la riga scansionata
 	 */
+	@SuppressWarnings("resource")
 	public String leggiRiga() {
 		
 		Scanner scannerDiLinee = new Scanner(System.in);
